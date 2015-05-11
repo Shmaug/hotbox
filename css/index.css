@@ -9,6 +9,17 @@ h1{
 .body{
   background-color:#ccc;
 }
+.row{
+  width:90%;
+  height:256px;
+}
+.info{
+  
+}
+.picture{
+  width:auto;
+  height:100%;
+}
 .container{
   margin-left:auto;
   margin-right:auto;
