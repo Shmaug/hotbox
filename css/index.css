@@ -30,6 +30,7 @@ h1{
   max-width:1024px;
   min-width:512px;
   min-height:1000px;
+  align-content:center;
 }
 .navbar{
     width:100%;
