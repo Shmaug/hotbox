@@ -1,10 +1,6 @@
 #include "I2Cdev.h"
-
 #include "MPU6050_6Axis_MotionApps20.h"
-
-#if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
-    #include "Wire.h"
-#endif
+#include "Wire.h"
 
 // class default I2C address is 0x68
 // specific I2C addresses may be passed as a parameter here
@@ -12,9 +8,6 @@
 // AD0 high = 0x69
 MPU6050 mpu;
 //MPU6050 mpu(0x69); // <-- use for AD0 high
-
-#define OUTPUT_READABLE_YAWPITCHROLL
-#define OUTPUT_READABLE_WORLDACCEL
 
 #define LED_PIN 13 // (Arduino is 13, Teensy is 11, Teensy++ is 6)
 bool blinkState = false;
@@ -34,7 +27,6 @@ VectorInt16 aaWorld;    // [x, y, z]            world-frame accel sensor measure
 VectorInt16 aaReal;     // [x, y, z]            world-frame accel sensor measurements
 VectorFloat gravity;    // [x, y, z]            gravity vector
 float euler[3];         // [psi, theta, phi]    Euler angle container
-float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 VectorFloat rotation;      // [x, y, z]
 
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
@@ -61,7 +53,7 @@ void getMPUData(){
   if ((mpuIntStatus & 0x10) || fifoCount == 1024) {
     // reset so we can continue cleanly
     mpu.resetFIFO();
-    Serial.println(F("FIFO overflow!"));
+    //Serial.println(F("FIFO overflow!"));
   
   // otherwise, check for DMP data ready interrupt (this should happen frequently)
   } else if (mpuIntStatus & 0x02) {
@@ -77,12 +69,14 @@ void getMPUData(){
 
     // display Euler angles in degrees
     mpu.dmpGetQuaternion(&q, fifoBuffer);
-    mpu.dmpGetGravity(&gravity, &q);
-    mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+    mpu.dmpGetEuler(euler, &q);
     
-    rotation.x=ypr[1] * 180/M_PI;
-    rotation.y=ypr[0] * 180/M_PI;
-    rotation.z=ypr[3] * 180/M_PI;
+    rotation.x=euler[0] * 180/M_PI;
+    rotation.y=euler[1] * 180/M_PI;
+    rotation.z=euler[2] * 180/M_PI;
+    
+    rotation.x-=107;
+    rotation.z-=110;
     
     output+="rotxyz\t";
     output+=rotation.x;
@@ -93,11 +87,12 @@ void getMPUData(){
   
     // display initial world-frame acceleration, adjusted to remove gravity
     // and rotated based on known orientation from quaternion
-    mpu.dmpGetQuaternion(&q, fifoBuffer);
     mpu.dmpGetAccel(&aa, fifoBuffer);
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
     mpu.dmpGetLinearAccelInWorld(&aaWorld, &aaReal, &q);
+    
+    aaWorld.z-=390;
     
     output+="\t\taccxyz\t";
     output+=aaWorld.x;
@@ -116,41 +111,35 @@ void getMPUData(){
 
 void rollForward(){
   float xStart=rotation.x;
-  while (rotation.x < xStart+80){
+  while (rotation.x < xStart+50){
     
   }
 }
 void rollBackward(){
   float xStart=rotation.x;
-  while (rotation.x > xStart-80){
-    
-  }
-}
-void rollLeft(){
-  float zStart=rotation.z;
-  while (rotation.z < zStart+80){
+  while (rotation.x > xStart-50){
     
   }
 }
 void rollRight(){
   float zStart=rotation.z;
-  while (rotation.z > zStart-80){
+  while (rotation.z < zStart+50){
+    
+  }
+}
+void rollLeft(){
+  float zStart=rotation.z;
+  while (rotation.z > zStart-50){
     
   }
 }
 
 void setup() {
     // join I2C bus (I2Cdev library doesn't do this automatically)
-    #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
-      Wire.begin();
-      TWBR = 24; // 400kHz I2C clock (200kHz if CPU is 8MHz)
-    #elif I2CDEV_IMPLEMENTATION == I2CDEV_BUILTIN_FASTWIRE
-      Fastwire::setup(400, true);
-    #endif
+    Wire.begin();
+    TWBR = 24; // 400kHz I2C clock (200kHz if CPU is 8MHz)
 
     Serial.begin(9600);
-    while (!Serial); // wait for Leonardo enumeration, others continue immediately
-
     // initialize device
     Serial.println(F("Initializing I2C devices..."));
     mpu.initialize();
@@ -162,11 +151,6 @@ void setup() {
     // load and configure the DMP
     Serial.println(F("Initializing DMP..."));
     devStatus = mpu.dmpInitialize();
-
-    mpu.setXGyroOffset(53);
-    mpu.setYGyroOffset(20);
-    mpu.setZGyroOffset(45);
-    mpu.setZAccelOffset(2300);
 
     // make sure it worked (returns 0 if so)
     if (devStatus == 0) {
