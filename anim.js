@@ -1,4 +1,4 @@
-$(document).on("mouseleave", '.navbtn', function(e){
+$(document).on("mouseenter", '.navbtn', function(e){
     $(this).animate({"backgroundColor": "#444"},250);
 });
 $(document).on("mouseleave", '.navbtn', function(e){
