@@ -1,6 +1,6 @@
 #define m1 9;
 #define m2 10;
-#define minThro=136; // full reverse
+#define minThro 136; // full reverse
 #define midThro 191; // neutral
 #define maxThro 243; // full forward
 #define revDif 55; // mid - min
@@ -42,5 +42,6 @@ void setup() {
 }
 
 void loop() {
-  
+  delay(1000);
+  s()
 }
