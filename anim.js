@@ -1,6 +1,6 @@
-$(".navbtn").on("mouseenter", function(){
+$(document).on("mouseleave", '.navbtn', function(e){
     $(this).animate({"backgroundColor": "#444"},250);
 });
-$(".navbtn").on("mouseleave", function(){
+$(document).on("mouseleave", '.navbtn', function(e){
     $(this).animate({"backgroundColor": "#000"},100);
 });
