@@ -1,1 +1,13 @@
-
+.left{
+  float:left;
+  margin-right:50px;
+}
+.right{
+  float:right;
+  margin-left:50px;
+}
+.pic{
+  height:256px;
+  width:auto;
+  border-radius:128px;
+}
