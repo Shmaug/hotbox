@@ -1,13 +1,15 @@
 .left{
   float:left;
   margin-right:50px;
-  font-size:64px;
 }
 .right{
   float:right;
   margin-left:50px;
   height:100%;
-  font-size:64px;
+}
+.text {
+  font-size: 48px;
+  padding-bottom:20px;
 }
 .pic{
   height:100%;
