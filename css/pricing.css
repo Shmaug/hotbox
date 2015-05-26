@@ -7,10 +7,11 @@ td{
   font-size:24px;
 }
 tr{
-  background-color:#ddd;
+  background-color:#eee;
 }
 th{
   font-size:25px;
+  background-color:#ddd;
 }
 .container{
   width:80%;
@@ -18,7 +19,8 @@ th{
   margin-right:auto;
 }
 .itemList{
-  width:50%;
+  margin-left:auto;
+  margin-right:auto;
   margin-top:20px;
 }
 .left{
