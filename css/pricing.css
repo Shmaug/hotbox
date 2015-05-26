@@ -1,3 +1,21 @@
+table{
+  
+}
+td{
+  font-size:15px;
+}
+tr{
+  font-size:13px;
+}
+.container{
+  width:80%;
+  margin-left:auto;
+  margin-right:auto;
+}
+.itemList{
+  width:50%;
+  margin-top:20px;
+}
 .left{
   float:left;
   margin-right:50px;
