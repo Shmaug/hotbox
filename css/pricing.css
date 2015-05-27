@@ -1,17 +1,53 @@
+table{
+  width:100%;
+  margin-left:auto;
+  margin-right:auto;
+  font-family: sans-serif;
+}
+td{
+  font-size:24px;
+}
+tr{
+  background-color:#eee;
+}
+th{
+  font-size:25px;
+  background-color:#ddd;
+}
+.container{
+  width:80%;
+  margin-left:auto;
+  margin-right:auto;
+}
+.itemList{
+  margin-left:auto;
+  margin-right:auto;
+  width:50%;
+  margin-top:20px;
+}
 .left{
-  float:left;
+  /*float:left;*/
   margin-right:50px;
 }
 .right{
-  float:right;
+  /*float:right;*/
   margin-left:50px;
   height:100%;
 }
+.text {
+  font-size: 48px;
+  padding-bottom:20px;
+}
 .pic{
+  height:100%;
   width:auto;
-  border-radius:128px;
+  border-radius:64px;
 }
 .row{
+  margin-top:10px;
   width:100%;
-  height:256px;
+  height:128px;
+}
+body {
+  text-align:center;
 }
