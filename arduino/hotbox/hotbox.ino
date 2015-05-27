@@ -36,7 +36,13 @@ void dmpDataReady() {
 /////////////////////////////////
 ///        end mpu vars      ///
 ////////////////////////////////
-
+#define m1 9
+#define m2 10
+#define minThro 136 // full reverse
+#define midThro 191 // neutral
+#define maxThro 243 // full forward
+#define revDif 55 // mid - min
+#define forDif 52 // max - mid
 bool useMPU=false;
 
 void getMPUData(){
@@ -154,49 +160,68 @@ void initMPU(){
   }
 }
 
-void rollForward(){
-  float xStart=rotation.x;
-  while (rotation.x < xStart+50){
-    
-  }
-}
-void rollBackward(){
-  float xStart=rotation.x;
-  while (rotation.x > xStart-50){
-    
-  }
-}
-void rollRight(){
-  float zStart=rotation.z;
-  while (rotation.z < zStart+50){
-    
-  }
-}
-void rollLeft(){
-  float zStart=rotation.z;
-  while (rotation.z > zStart-50){
-    
-  }
-}
-
 void setup() {
   Serial.begin(9600);
   
   if (useMPU){
     initMPU();
   }
+  pinMode(m1,OUTPUT);
+  pinMode(m2,OUTPUT);
   
-  // configure LED for output
   pinMode(LED_PIN, OUTPUT);
+  
+  // arm
+  digitalWrite(13,HIGH);
+  analogWrite(m1,midThro);
+  analogWrite(m2,midThro);
+  delay(6000);
+  digitalWrite(13,LOW);
 }
 
+void b(int thr, int m){ // go backward at (thr)% throttle
+  float f=(float)thr/100;
+  analogWrite(m,midThro-(revDif*f));
+}
+void f(int thr, int m){ // go forward at (thr)% throttle
+  float f=(float)thr/100;
+  analogWrite(m,midThro-(forDif*f));
+}
+void n(int m){
+  analogWrite(m,midThro);
+}
+
+int last=millis();
+int cTimer;
 void doAI(){
+  int cur=millis();
+  int delta=cur-last;
   
+  cTimer-=delta;
+  if (cTimer <= 0){
+    n(m1);
+    n(m2);
+    
+    cTimer=random(1000,3000);
+    delay(random(1000,2000));
+    
+    if (random(-10,10)>0){
+      f(m1,random(0,100));
+    }else{
+      b(m1,random(0,100));
+    }
+    if (random(-10,10)>0){
+      f(m2,random(0,100));
+    }else{
+      b(m2,random(0,100));
+    }
+  }
+  
+  last=cur;
 }
 
 void loop() {
-  if (useMPU)
-  {
+  if (useMPU){
     // if programming failed, don't try to do anything
     if (!dmpReady) return;
   
