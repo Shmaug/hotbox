@@ -26,11 +26,11 @@ th{
   margin-top:20px;
 }
 .left{
-  float:left;
+  /*float:left;*/
   margin-right:50px;
 }
 .right{
-  float:right;
+  /*float:right;*/
   margin-left:50px;
   height:100%;
 }
