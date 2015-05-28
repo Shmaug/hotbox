@@ -11,10 +11,10 @@
         <script>$("#header").load("header.html");</script>
         
         <div class="container">
-            <h1>How it Works</h1>
-            <p>Hot Box uses a 12 volt, 2100mah Lithium Polymer battery, which splits to power the Arduino Nano and the two motor controllers. The motor controllers provide power in pulses to the motors to spin them with large amounts of torque. The MPU-6050 accelerometer and gyro gets power from the Arduino, which provides 5v. The arduino is grounded with all the devices and controlls the motor controls with PWM signals, and receives data from the MPU through an I2C connection</p>
-            
-            <p>	Since the motors within the box are rotating weights at an axis of rotation that is not at its center of mass, its equal and opposite counterforce exerts a torque on the box itself, resulting in a rotational velocity for the box in the same direction as the rotation as the weight. The force that acts on the weight exerts and equal force on the box itself. Since the resulting torque exceeds the rotational inertia of the box, the box rotates on a vertex, initially slow in angular velocity but gradually increasing until the box’s leading edge becomes the next axis of rotation for the next rotation cycle.</p>
+        <h1>How it Works</h1>
+        <p>Hot Box uses a 12 volt, 2100mah Lithium Polymer battery, which splits to power the Arduino Nano and the two motor controllers. The motor controllers provide power in pulses to the motors to spin them with large amounts of torque. The MPU-6050 accelerometer and gyro gets power from the Arduino, which provides 5v. The arduino is grounded with all the devices and controlls the motor controls with PWM signals, and receives data from the MPU through an I2C connection</p>
+        <img src="circuit.png" class="diagram">
+        <p>	Since the motors within the box are rotating weights at an axis of rotation that is not at its center of mass, its equal and opposite counterforce exerts a torque on the box itself, resulting in a rotational velocity for the box in the same direction as the rotation as the weight. The force that acts on the weight exerts and equal force on the box itself. Since the resulting torque exceeds the rotational inertia of the box, the box rotates on a vertex, initially slow in angular velocity but gradually increasing until the box’s leading edge becomes the next axis of rotation for the next rotation cycle.</p>
 
 	    <p>The torque produced by the motor causes work in an angular sense and in a linear sense. The torques acting on the box cause it to displace angularly. It displaces ninety degrees per cycle, with a power than is expressed as a ratio of the amount displaced angularly to the time taken to complete the rotation. Its linear displacement is caused by the rotation of the box, and its power is not constant due to its irregular linear velocity and thus inconsistent linear work.</p>
 
