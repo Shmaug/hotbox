@@ -36,7 +36,7 @@ h1{
 .navbtn{
     position: relative;
     float:left;
-    width:calc(50% / 3);
+    width:calc(50% / 4);
     text-align: center;
     height:calc(100% - 15px);
     background-color:#000;
